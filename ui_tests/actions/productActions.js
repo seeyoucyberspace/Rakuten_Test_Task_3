@@ -5,7 +5,7 @@ class ProductActions {
         this.productPageObject = productPageObject;
     }
 
-    async addProductsToBasket() {
+    addProductsToBasket() {
         // Locator for displaying the number of items in the basket
         const basketBadge = this.productPageObject.getBasketBadge();
         const addToBasketButton = this.productPageObject.getAddToBasketButton();

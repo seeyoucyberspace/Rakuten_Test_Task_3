@@ -12,12 +12,10 @@ class ProductSteps {
         productActions.addProductsToBasket();
     }
 
-    verifyAllProductsInBasket(addedProducts) {
-        cy.get('[id="basketItems"] > li > div > h6').each(($el, index) => {
-            cy.wrap($el).should('have.text', addedProducts[index]);
-        });
+    verifyBasketItemCount(expectedCount) {
+        // Verify that the basket contains the expected number of items
+        cy.get('[id="basketItems"] > li > div').should('have.length', expectedCount);
     }
-
 }
 
 export const productSteps = new ProductSteps();

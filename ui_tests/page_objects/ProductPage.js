@@ -6,7 +6,7 @@ class ProductPageObject {
         cy.get('[class="btn btn-success btn-block addItem"]').click({ multiple: true });
     }
 
-    async getProductNames() {
+    getProductNames() {
         // Get the names of all product cards and return them as a promise
         return cy.get('h4[class="card-title"]').then(($els) => {
             return Cypress._.map($els, 'innerText').map((name) => name.trim());
