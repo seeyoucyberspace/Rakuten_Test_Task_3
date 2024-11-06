@@ -19,5 +19,13 @@ describe('Sweet Shop UI Tests', () => {
         productSteps.verifyBasketItemCount(4);
     });
 
+    it('Verify total price in basket matches individual item prices', () => {
+        // Navigate to the basket page
+        basketPageObject.navigateToBasket();
+
+        // Verify the total price matches the sum of the individual item prices
+        productSteps.verifyBasketTotalPrice();
+    });
+
     // Other tests...
 });

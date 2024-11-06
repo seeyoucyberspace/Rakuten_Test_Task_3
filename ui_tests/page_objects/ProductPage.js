@@ -20,6 +20,14 @@ class ProductPageObject {
     getBasketBadge() {
         return 'span.badge.badge-success';
     }
+
+    getBasketItemPriceLocator() {
+        return '[id="basketItems"] > li > span[class="text-muted"]';
+    }
+
+    getBasketTotalPriceLocator() {
+        return 'li[class="list-group-item d-flex justify-content-between"] > strong';
+    }
 }
 
 export const productPageObject = new ProductPageObject();
