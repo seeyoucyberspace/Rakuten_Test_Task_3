@@ -1,4 +1,5 @@
 import { productActions } from '../actions/productActions';
+import { productPageObject } from '../page_objects/ProductPage';
 
 class ProductSteps {
     async getProductNames() {
@@ -14,7 +15,7 @@ class ProductSteps {
 
     verifyBasketItemCount(expectedCount) {
         // Verify that the basket contains the expected number of items
-        cy.get('[id="basketItems"] > li > div').should('have.length', expectedCount);
+        cy.get(productPageObject.getBasketItemsLocator()).should('have.length', expectedCount);
     }
 }
 

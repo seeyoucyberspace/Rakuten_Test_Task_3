@@ -1,5 +1,4 @@
 export class RandomGenerators {
-    // Статические методы для генерации случайных значений
     static generateRandomName(length) {
         const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         let result = characters.charAt(Math.floor(Math.random() * 26));

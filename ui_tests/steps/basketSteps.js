@@ -1,30 +1,30 @@
-import { productActions } from '../actions/productActions';
-import { productPageObject } from "../page_objects/ProductPage";
 import { RandomGenerators } from "../utility/randomGenerators";
+import { basketPageObject } from "../page_objects/BasketPage";
+import { basketActions } from "../actions/basketActions";
 
 
 class BasketSteps {
     async verifyBasketTotalPrice() {
         // Step to verify that the total price in the basket matches the sum of individual item prices
-        const itemPrices = await productActions.getBasketItemPrices();
-        const totalPrice = await productActions.getBasketTotalPrice();
+        const itemPrices = await basketActions.getBasketItemPrices();
+        const totalPrice = await basketActions.getBasketTotalPrice();
         const calculatedTotal = itemPrices.reduce((acc, price) => acc + price, 0);
         expect(totalPrice).to.equal(calculatedTotal);
     }
 
     savePreviousPrice() {
-        return productActions.getBasketTotalPrice().then((price) => {
+        return basketActions.getBasketTotalPrice().then((price) => {
             return cy.wrap(price);
         });
     }
 
     selectStandardShipping() {
-        cy.get(productPageObject.getStandardShippingOptionLocator()).click();
+        cy.get(basketPageObject.getStandardShippingOptionLocator()).click();
     }
 
     checkPriceChange(previousTotalPrice) {
         // Wait until the total price element updates to a new value
-        cy.get(productPageObject.getTotalPriceLocator()).should(($el) => {
+        cy.get(basketPageObject.getTotalPriceLocator()).should(($el) => {
             const newPrice = parseFloat($el.text().replace(/[^0-9.]/g, ''));
             expect(newPrice).to.not.equal(previousTotalPrice, 'Price did not change after updating delivery option');
             expect(newPrice).to.not.be.NaN;
@@ -39,13 +39,13 @@ class BasketSteps {
         const address = RandomGenerators.generateRandomDigits(4);
         const zipCode = RandomGenerators.generateRandomDigits(5);
 
-        productActions.fillAndVerifyField(productPageObject.getFirstNameLocator(), firstName);
-        productActions.fillAndVerifyField(productPageObject.getLastNameLocator(), lastName);
-        productActions.fillAndVerifyField(productPageObject.getEmailLocator(), email);
-        productActions.fillAndVerifyField(productPageObject.getAddressLocator(), address);
-        productActions.selectCountry();
-        productActions.selectCity();
-        productActions.fillAndVerifyField(productPageObject.getZipCodeLocator(), zipCode);
+        basketActions.fillAndVerifyField(basketPageObject.getFirstNameLocator(), firstName);
+        basketActions.fillAndVerifyField(basketPageObject.getLastNameLocator(), lastName);
+        basketActions.fillAndVerifyField(basketPageObject.getEmailLocator(), email);
+        basketActions.fillAndVerifyField(basketPageObject.getAddressLocator(), address);
+        basketActions.selectCountry();
+        basketActions.selectCity();
+        basketActions.fillAndVerifyField(basketPageObject.getZipCodeLocator(), zipCode);
     }
 
     // Fill in payment details for the checkout form
@@ -57,15 +57,15 @@ class BasketSteps {
         const expiry = `${month}/${year}`;
         const cvv = RandomGenerators.generateRandomDigits(3);
 
-        productActions.fillAndVerifyField(productPageObject.getCardNameLocator(), cardName);
-        productActions.fillAndVerifyField(productPageObject.getCardNumberLocator(), cardNumber);
-        productActions.fillAndVerifyField(productPageObject.getCardExpiryLocator(), expiry);
-        productActions.fillAndVerifyField(productPageObject.getCardCvvLocator(), cvv);
+        basketActions.fillAndVerifyField(basketPageObject.getCardNameLocator(), cardName);
+        basketActions.fillAndVerifyField(basketPageObject.getCardNumberLocator(), cardNumber);
+        basketActions.fillAndVerifyField(basketPageObject.getCardExpiryLocator(), expiry);
+        basketActions.fillAndVerifyField(basketPageObject.getCardCvvLocator(), cvv);
     }
 
     // Click the checkout button to proceed with the order
     clickCheckoutButton() {
-        return cy.get(productPageObject.getCheckoutButtonLocator()).click();
+        return cy.get(basketPageObject.getCheckoutButtonLocator()).click();
     }
 }
 

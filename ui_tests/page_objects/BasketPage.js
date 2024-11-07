@@ -6,26 +6,83 @@ class BasketPageObject {
         cy.visit(`${credentials.url}/basket`);
     }
 
-    verifyProductInBasket(productName) {
-        // Verify that the product is visible in the basket
-        cy.contains(productName).should('be.visible');
+    getBasketItemPriceLocator() {
+        return '[id="basketItems"] > li > span[class="text-muted"]';
     }
 
-    verifyTotalPrice(totalPrice) {
-        // Verify that the total price in the basket matches the expected value
-        cy.get('.total-price').should('contain', totalPrice.toFixed(2));
+    getBasketTotalPriceLocator() {
+        return 'li[class="list-group-item d-flex justify-content-between"] > strong';
     }
 
-    changeDeliveryType(type, shippingCost) {
-        // Change the delivery type and verify the shipping cost
-        cy.get('#delivery-type').select(type);
-        cy.get('.shipping-cost').should('contain', shippingCost);
+    getStandardShippingOptionLocator() {
+        return 'label[for="exampleRadios2"]';
     }
 
-    getTotalPrice() {
-        // Get the total price from the basket and return it as a float
-        return cy.get('.total-price').invoke('text').then((text) => parseFloat(text.replace('£', '')));
+    getTotalPriceLocator() {
+        return 'li.list-group-item.d-flex.justify-content-between > strong';
     }
+
+    // Locator for the checkout button
+    getCheckoutButtonLocator() {
+        return 'button[class="btn btn-primary btn-lg btn-block"]';
+    }
+
+    // Locator for the first name input field
+    getFirstNameLocator() {
+        return "label[for='firstName'] + input";
+    }
+
+    // Locator for the last name input field
+    getLastNameLocator() {
+        return "label[for='lastName'] + input";
+    }
+
+    // Locator for the email input field
+    getEmailLocator() {
+        return "label[for='email'] + input";
+    }
+
+    // Locator for the address input field
+    getAddressLocator() {
+        return "label[for='address'] + input";
+    }
+
+    // Locator for the zip code input field
+    getZipCodeLocator() {
+        return "label[for='zip'] + input";
+    }
+
+    // Locator for the country selector dropdown
+    getCountrySelectorLocator() {
+        return "label[for='country'] + select";
+    }
+
+    // Locator for the city selector dropdown
+    getCitySelectorLocator() {
+        return "#city";
+    }
+
+    // Locator for the card name input field
+    getCardNameLocator() {
+        return "label[for='cc-name'] + input";
+    }
+
+    // Locator for the card number input field
+    getCardNumberLocator() {
+        return "label[for='cc-number'] + input";
+    }
+
+    // Locator for the card expiry date input field
+    getCardExpiryLocator() {
+        return "input[id='cc-expiration']";
+    }
+
+    // Locator for the card CVV input field
+    getCardCvvLocator() {
+        return "input[id='cc-cvv']";
+    }
+
+
 }
 
 export const basketPageObject = new BasketPageObject();
