@@ -28,6 +28,14 @@ class ProductPageObject {
     getBasketTotalPriceLocator() {
         return 'li[class="list-group-item d-flex justify-content-between"] > strong';
     }
+
+    getStandardShippingOptionLocator() {
+        return 'label[for="exampleRadios2"]';
+    }
+
+    getTotalPriceLocator() {
+        return 'li.list-group-item.d-flex.justify-content-between > strong';
+    }
 }
 
 export const productPageObject = new ProductPageObject();

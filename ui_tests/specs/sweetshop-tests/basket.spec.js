@@ -24,21 +24,13 @@ describe('Sweet Shop UI Tests', () => {
     });
 
     it('Verify that selecting Standard Shipping updates the total price', () => {
-        const previousTotalPrice = productActions.getBasketTotalPrice();
-        // Click on the Standard Shipping delivery option
-        cy.get('label[for="exampleRadios2"]').click();
+        // Remember the previous total price before selecting the Standard Shipping option
+        productSteps.savePreviousPrice().then((previousPrice) => {
+            // Click on the Standard Shipping delivery option
+            productSteps.selectStandardShipping();
 
-        // Verify the total price changes after selecting Standard Shipping
-        const updatedTotalPrice = productActions.getBasketTotalPrice();
-        cy.wait(500); // Adding some delay for price update
-        productActions.getBasketTotalPrice().then((updatedTotalPrice) => {
-            if (isNaN(updatedTotalPrice)) {
-                throw new Error('Price value is NaN after updating delivery option');
-            }
-            if (updatedTotalPrice === previousTotalPrice) {
-                throw new Error('Price did not change after updating delivery option');
-            }
-            expect(updatedTotalPrice).to.not.equal(previousTotalPrice);
+            // Verify the total price changes after selecting Standard Shipping
+            productSteps.checkPriceChange(previousPrice);
         });
     });
 
