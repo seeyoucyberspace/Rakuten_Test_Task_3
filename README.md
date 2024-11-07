@@ -71,8 +71,8 @@ UI_Rakuten_Task
 3. **Verify Total Price Update After Delivery Option Change**
     - Changes the delivery type to Standard Shipping and verifies that the total price updates accordingly.
 
-4. **Negative Checkout Test**
-    - Fills in incorrect payment information and verifies that the checkout process fails as expected.
+4. **Checkout Test**
+    - Fills in payment information and click on checkout button.
 
 ## Running Tests
 To run the tests locally, use the following command:
