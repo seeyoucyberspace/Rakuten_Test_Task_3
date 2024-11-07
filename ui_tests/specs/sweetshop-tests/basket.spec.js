@@ -2,6 +2,7 @@ import { productSteps } from '../../steps/productSteps';
 import { basketPageObject } from '../../page_objects/BasketPage';
 import * as credentials from '../../../credentials/credentials.json';
 import { productActions } from "../../actions/productActions";
+import { basketSteps } from "../../steps/basketSteps";
 
 describe('Sweet Shop UI Tests', () => {
     beforeEach(() => {
@@ -20,19 +21,28 @@ describe('Sweet Shop UI Tests', () => {
 
     it('Verify total price in basket matches individual item prices', () => {
         // Verify the total price matches the sum of the individual item prices
-        productSteps.verifyBasketTotalPrice();
+        basketSteps.verifyBasketTotalPrice();
     });
 
     it('Verify that selecting Standard Shipping updates the total price', () => {
         // Remember the previous total price before selecting the Standard Shipping option
-        productSteps.savePreviousPrice().then((previousPrice) => {
+        basketSteps.savePreviousPrice().then((previousPrice) => {
             // Click on the Standard Shipping delivery option
-            productSteps.selectStandardShipping();
+            basketSteps.selectStandardShipping();
 
             // Verify the total price changes after selecting Standard Shipping
-            productSteps.checkPriceChange(previousPrice);
+            basketSteps.checkPriceChange(previousPrice);
         });
     });
 
-    // Other tests...
+    it('Fill details and perform negative checkout test with invalid card', () => {
+        // Fill in personal details
+        basketSteps.fillPersonalDetails();
+
+        // Fill in payment details
+        basketSteps.fillPaymentDetails();
+
+        // Click on the checkout button and verify it was clicked
+        basketSteps.clickCheckoutButton().should('be.visible');
+    });
 });

@@ -7,6 +7,5 @@ module.exports = {
     viewportHeight: 720,
     video: true,
     chromeWebSecurity: false,
-    // Другие настройки, если необходимо
   }
 };

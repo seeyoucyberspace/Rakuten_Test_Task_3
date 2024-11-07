@@ -1,0 +1,92 @@
+version: 2.1
+
+executors:
+  node-executor:
+    docker:
+      - image: circleci/node:14-browsers
+
+jobs:
+  build:
+    executor: node-executor
+    steps:
+      - checkout # Check out the code from the repository
+      - restore_cache: # Restore npm cache to speed up build time
+          keys:
+            - v1-npm-cache-{{ checksum "package-lock.json" }}
+            - v1-npm-cache-
+      - run:
+          name: Install dependencies # Install project dependencies
+          command: npm install
+      - save_cache: # Save npm cache for future builds
+          paths:
+            - ~/.npm
+          key: v1-npm-cache-{{ checksum "package-lock.json" }}
+
+  test:
+    executor: node-executor
+    parallelism: 2 # Run tests in parallel to speed up execution
+    steps:
+      - checkout # Check out the code from the repository
+      - restore_cache: # Restore npm cache to speed up build time
+          keys:
+            - v1-npm-cache-{{ checksum "package-lock.json" }}
+            - v1-npm-cache-
+      - run:
+          name: Install dependencies # Install project dependencies
+          command: npm install
+      - run:
+          name: Run Cypress Tests # Run Cypress tests
+          command: npm run test
+      - store_artifacts: # Store videos of Cypress tests for debugging
+          path: cypress/videos
+      - store_artifacts: # Store screenshots of Cypress tests for debugging
+          path: cypress/screenshots
+      - store_test_results: # Store test results for CircleCI insights
+          path: cypress/results
+
+  deploy:
+    executor: node-executor
+    steps:
+      - checkout # Check out the code from the repository
+      - run:
+          name: Deploy to ${ENVIRONMENT} # Deploy the application to the specified environment
+          command: ./deploy.sh ${ENVIRONMENT}
+
+workflows:
+  version: 2
+  qa-deployment:
+    jobs:
+      - build # Build the application
+      - test # Run tests
+      - deploy: # Deploy to QA environment
+          name: Deploy to QA
+          context: qa-context
+          requires:
+            - test
+          filters:
+            branches:
+              only: develop
+  preprod-deployment:
+    jobs:
+      - build # Build the application
+      - test # Run tests
+      - deploy: # Deploy to Preprod environment
+          name: Deploy to Preprod
+          context: preprod-context
+          requires:
+            - test
+          filters:
+            branches:
+              only: preprod
+  prod-deployment:
+    jobs:
+      - build # Build the application
+      - test # Run tests
+      - deploy: # Deploy to Prod environment
+          name: Deploy to Prod
+          context: prod-context
+          requires:
+            - test
+          filters:
+            branches:
+              only: main
