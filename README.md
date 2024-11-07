@@ -1,10 +1,5 @@
 # UI Rakuten Task - QA UI Automation Test
 
-## Overview
-This project is a QA UI automation testing suite designed to validate the functionality of the Sweetshop website: [Sweetshop Netlify](https://sweetshop.netlify.app/). The test suite is developed using JavaScript-based testing frameworks, with Cypress being the main tool utilized. The goal of this project is to ensure the proper functionality of critical user flows in the Sweetshop website, such as adding products to the basket, verifying basket contents, calculating the total price, and completing a purchase.
-
-The architecture of the project was designed to follow best practices for structuring an automation project to ensure readability, reusability, and scalability of the test code.
-
 ## Objectives
 The project aims to cover the following scenarios on the Sweetshop website:
 
